@@ -1,28 +1,38 @@
 #include <iostream>
 using namespace std;
 
-void aggiunta(int v[], int dim)
+void aggiunta(int v[], int &fillcounter)
 {
+    int value;
+    cout<<"Inserisci il valore da aggiungere: ";
+    cin>>value;
+
+    if(fillcounter<100)
+    {
+        v[fillcounter]=value;
+        fillcounter++;
+        cout<<"elemento aggiunto"<<endl;
+    }
+    else
+        cout<<"Array pieno"<<endl;
     
 }
 
+
+
+
+
 void visualizzazione(int v[], int dim)
 {
-    cout<<"Array visualizzato:";
+    cout<<"Array visualizzato:"<<endl;
     for(int i=0;i<dim;i++)
     {
-        if(i>9 && i<20)
-            cout<<endl;
-        if(i>19 && i<30)
-            cout<<endl;
-        if(i>29 && i<40)
-            cout<<endl;
-        if(i>39 && i<50)
-            cout<<endl;
-            
         cout<<" ["<<v[i]<<"]";
+        cout<<endl;
         
     }
+    
+    cout<<endl;
     
     
     
@@ -30,12 +40,53 @@ void visualizzazione(int v[], int dim)
 
 void modifica(int v[], int dim)
 {
+    int modpos;
+    
+    do
+    {
+        cout<<"Inserisci valore del posizione della variabile di array che vuoi cambiare: ";
+        cin>>modpos;
+    }while(modpos>99 || modpos<0);
+    
+    
+    int modval;
+    cout<<"Inserisci valore con quale vuoi restituire il valore della variabile di array che vuoi cambiare: ";
+    cin>>modval;
+    
+    v[modpos]=modval;
+    cout<<endl;
+    
+    
     
 }
 
 void cancellazione(int v[], int dim)
 {
+    int cpos;
+    do
+    {
+        cout<<"Inserisci valore del posizione della variabile valore di quale vuoi cancellare: ";
+        cin>>cpos;
+    }while(cpos>99 || cpos<0);
     
+    v[cpos]=-1;
+    
+    
+}
+
+// funzione di ricerca
+int ricerca(int v[], int dim)
+{
+    int fval;
+    cout<<"Inserisci il valore posizione del quale vuoi trovare: ";
+    cin>>fval;
+    
+    for(int i=0; i<dim; i++)
+    {
+        if(v[i]==fval)
+            return i;
+    }
+    return -1;
 }
 
 
@@ -45,10 +96,16 @@ void cancellazione(int v[], int dim)
 
 int main()
 {
-	int v[50] = {12, 45, 3, 67, 29, 54, 1, 70, 18, 39, 22, 60, 7, 41, 33, 9, 55, 26, 48, 14,
-               62, 5, 37, 20, 69, 11, 52, 30, 16, 44, 8, 63, 24, 58, 2, 35, 47, 13, 40, 21,
-               66, 10, 53, 28, 34, 59, 6, 42, 19, 50};
-	int dimension=sizeof(v)/sizeof(v[0]);
+	int vector[100];
+	int dimension=100;
+	int fillcounter=0;
+	
+	for(int i=0;i<100;i++)
+	{
+	    vector[i]=-1;
+	}
+	
+	
 	
 	
 	
@@ -58,10 +115,11 @@ int main()
 	do
 	{
 	    cout<<"Opzioni: "<<endl;
-		cout<<"   Per fare fare aggiunta, premi 'C'."<<endl<<"   Per visualizzare array, premi '2'."<<endl<<"   Per fare modifica veloce di array premi 'U'"<<endl;
-		cout<<"   Per cancellare un elemento di array premi 'D'."<<endl<<"   Per uscire dal menu premi '0' "<<endl<<endl;
+		cout<<"   Per fare fare aggiunta, premi 'C'."<<endl<<"   Per visualizzare array, premi 'R'."<<endl<<"   Per fare modifica veloce di array premi 'U'."<<endl;
+		cout<<"   Per cancellare un elemento di array premi 'D'."<<endl<<"    Per fare ricerca veloce premi 'F'."<<endl;
+		cout<<"   Per uscire dal menu premi 'S'."<<endl<<endl;
 		
-		cout<<"Quale operazione vuoi fare? Inserisci la lettera o la cifra: ";
+		cout<<"Quale operazione vuoi fare? Inserisci la lettera: ";
 		cin>>option;
 		
 		cout<<endl;
@@ -69,8 +127,32 @@ int main()
 		
 		switch(option)
 		{
-		    case 2: 
-		        visualizzazione(v, dimension);
+		    case 'c':
+		    case 'C':
+		        aggiunta(vector, fillcounter);
+		        break;
+		    
+		    
+		    case 'r':
+		    case 'R':
+		        visualizzazione(vector, dimension);
+		        break;
+		        
+		    case 'u':
+		    case 'U':
+		        modifica(vector, dimension);
+		        break;
+		        
+		    case 'd':
+		    case 'D':
+		        cancellazione(vector, dimension);
+		        break;
+		        
+		        
+		    case 'f':
+		    case 'F':
+		        int research_result=ricerca(vector, dimension);
+		        cout<<"Posizione: "<<research_result<<endl;
 		        break;
 		    
 		        
@@ -82,12 +164,7 @@ int main()
 		
 		
 		
-	}while(option!=0);
+	}while(option!='s'||option!='S');
 
     return 0;
 }
-
-/*(C) aggiunta
-(R) visualizzazione
-(U) modifica
-(D) cancellazione*/
